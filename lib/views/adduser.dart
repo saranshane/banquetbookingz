@@ -7,9 +7,9 @@ import 'package:banquetbookingz/providers/imageprovider.dart';
 import 'package:banquetbookingz/providers/loader.dart';
 import 'package:banquetbookingz/providers/selectionmodal.dart';
 import 'package:banquetbookingz/providers/usersprovider.dart';
-import 'package:banquetbookingz/views.dart/example.dart';
-import 'package:banquetbookingz/views.dart/loginpage.dart';
-import 'package:banquetbookingz/views.dart/users.dart';
+import 'package:banquetbookingz/views/example.dart';
+import 'package:banquetbookingz/views/loginpage.dart';
+import 'package:banquetbookingz/views/users.dart';
 import 'package:banquetbookingz/widgets/button2.dart';
 import 'package:banquetbookingz/widgets/customelevatedbutton.dart';
 import 'package:banquetbookingz/widgets/customtextfield.dart';
@@ -65,7 +65,6 @@ class _AddUserState extends ConsumerState<AddUser> {
 
     return Scaffold(
       body: Consumer(builder: (context, ref, child) {
-      
         return SingleChildScrollView(
             child: Form(
           key: _formKey,
@@ -212,8 +211,7 @@ class _AddUserState extends ConsumerState<AddUser> {
                         "Email ID",
                         style: TextStyle(color: Colors.black, fontSize: 16),
                       ),
-                      
-                       const SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Consumer(builder: (context, ref, child) {
@@ -248,12 +246,11 @@ class _AddUserState extends ConsumerState<AddUser> {
                         "Password",
                         style: TextStyle(color: Colors.black, fontSize: 16),
                       ),
-                     
-                     Consumer(builder: (context, ref, child) {
+                      Consumer(builder: (context, ref, child) {
                         final controller =
                             ref.watch(selectionModelProvider.notifier);
                         return CustomTextFormField(
-                          secureText:true,
+                          secureText: true,
                           width: ScreenWidth * 0.8,
                           keyBoardType: TextInputType.text,
                           onChanged: (newVlue) {
@@ -337,7 +334,6 @@ class _AddUserState extends ConsumerState<AddUser> {
                         height: 10,
                       ),
                       Consumer(builder: (context, ref, child) {
-                      
                         return CustomTextFormField(
                           width: ScreenWidth * 0.8,
                           readOnly: true,
@@ -356,7 +352,6 @@ class _AddUserState extends ConsumerState<AddUser> {
                         final controller =
                             ref.watch(selectionModelProvider.notifier);
                         return CustomTextFormField(
-                          
                           width: ScreenWidth * 0.8,
                           keyBoardType: TextInputType.number,
                           onChanged: (newVlue) {
@@ -439,8 +434,6 @@ class _AddUserState extends ConsumerState<AddUser> {
                                                 fontSize: 16,
                                               ),
                                             ),
-                                            
-                                            
                                             const SizedBox(height: 20),
                                             Consumer(
                                                 builder: (context, ref, child) {
@@ -455,8 +448,7 @@ class _AddUserState extends ConsumerState<AddUser> {
                                                 backGroundColor:
                                                     const Color(0XFF6418C3),
                                                 onPressed: () {
-                                                   Navigator.of(context)
-                                                .pop();
+                                                  Navigator.of(context).pop();
                                                   ref
                                                       .read(pageIndexProvider
                                                           .notifier)

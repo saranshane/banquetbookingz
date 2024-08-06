@@ -17,26 +17,27 @@ import 'package:path/path.dart';
 
 class AuthNotifier extends StateNotifier<AdminAuth> {
   AuthNotifier() : super(AdminAuth());
-Future<bool> isAuthenticated() async {
+  Future<bool> isAuthenticated() async {
     final prefs = await SharedPreferences.getInstance();
-      if (prefs.containsKey('userData')) {
-   final extractData =
-    json.decode(prefs.getString('userData')!) as Map<String, dynamic>;
-if(state.token==null){
-  state = state.copyWith(
-  token: extractData['token'],
-  username: extractData['username'],
-  email: extractData['email'],
-  mobileno: extractData['mobileno'],
-  usertype: extractData['usertype'],
-);
-}
+    if (prefs.containsKey('userData')) {
+      final extractData =
+          json.decode(prefs.getString('userData')!) as Map<String, dynamic>;
+      if (state.token == null) {
+        state = state.copyWith(
+          token: extractData['token'],
+          username: extractData['username'],
+          email: extractData['email'],
+          mobileno: extractData['mobileno'],
+          usertype: extractData['usertype'],
+        );
+      }
 
-  
-    return true;
-}else{  print('trylogin is false');
-      return false;}
-   
+      return true;
+    } else {
+      print('trylogin is false');
+      return false;
+    }
+
     // final extractData =
     //     json.decode(prefs.getString('userData')!) as Map<String, dynamic>;
 
@@ -44,13 +45,13 @@ if(state.token==null){
     //          data: state.data?.copyWith(accessToken: extractData['access_token'], refreshToken: extractData['refresh_token'],
     //          id: extractData['id'],profilePic: extractData['profilePic'],userRole: extractData['userRole'],
     //          emailId: extractData['emailId'],password: extractData['password']),
-            
+
     //       );
 
-          // print('email:${extractData['emailId']}');
+    // print('email:${extractData['emailId']}');
     // Check if 'isLoggedIn' key exists and if so, return its value
-   
   }
+
   //
   String generateRandomLetters(int length) {
     var random = Random();
@@ -100,7 +101,7 @@ if(state.token==null){
       //     //autologout();
 
       //     await prefs.setString('userData', userData);
-      
+
       //     break;
       //   default:
       //     if (statuscode != 201) {
@@ -110,38 +111,38 @@ if(state.token==null){
       //     break;
       // }
       if (statuscode == 200) {
-        
-          loadingState.state = false;
+        loadingState.state = false;
         state = AdminAuth.fromJson(userDetails);
-          //print('this is from Auth response is:$accessToken');
+        //print('this is from Auth response is:$accessToken');
 
-         final prefs = await SharedPreferences.getInstance();
-print("SharedPreferences fetched successfully");
-           
-           state=state.copyWith(token:userDetails['token'],username:userDetails['username'],email: userDetails['email'],mobileno: userDetails['mobileno'],usertype: userDetails['usertype'] );
+        final prefs = await SharedPreferences.getInstance();
+        print("SharedPreferences fetched successfully");
 
-          final userData = json.encode({
-            'token':userDetails['token'],
-            'username':userDetails['username'],
-            'email': userDetails['email'],
-            'mobileno':userDetails['mobileno'],
-            
-            'usertype': userDetails['usertype'],
-         
-          });
+        state = state.copyWith(
+            token: userDetails['token'],
+            username: userDetails['username'],
+            email: userDetails['email'],
+            mobileno: userDetails['mobileno'],
+            usertype: userDetails['usertype']);
 
-          //autologout();
+        final userData = json.encode({
+          'token': userDetails['token'],
+          'username': userDetails['username'],
+          'email': userDetails['email'],
+          'mobileno': userDetails['mobileno'],
+          'usertype': userDetails['usertype'],
+        });
 
-          bool saveResult = await prefs.setString('userData', userData);
-      if (!saveResult) {
-        print("Failed to save user data to SharedPreferences.");
+        //autologout();
+
+        bool saveResult = await prefs.setString('userData', userData);
+        if (!saveResult) {
+          print("Failed to save user data to SharedPreferences.");
+        }
+
+        // Assuming `state` and `authState` are part of your state management.
+        // Update them as necessary.
       }
-
-      // Assuming `state` and `authState` are part of your state management. 
-      // Update them as necessary.
-      
-      }
-      
     } catch (e) {
       loadingState.state = false;
       errorMessage = e.toString();
@@ -149,16 +150,12 @@ print("SharedPreferences fetched successfully");
     }
     return LoginResult(responseCode, errorMessage: errorMessage);
   }
-Future<void> logoutUser() async {
+
+  Future<void> logoutUser() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('userData');
     await prefs.setBool('isLoggedIn', false);
   }
-
-
-  
-
-  
 }
 
 final authProvider = StateNotifierProvider<AuthNotifier, AdminAuth>((ref) {
